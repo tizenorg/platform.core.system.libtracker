@@ -18,11 +18,58 @@
 #include "tracker.h"
 #include "tracker_private.h"
 
-static int power_lock_ref = 0;
-
 API int tracker_get_power_lock_ref(int *cnt)
 {
-	_I("Power Lock reference count: (%d)", power_lock_ref);
-	*cnt = power_lock_ref;
+	int ref;
+
+	ref = get_power_lock_ref();
+	if (ref < 0) {
+		_E("Failed to get power lock reference count(%d)", ref);
+		return ref;
+	}
+
+	*cnt = ref;
+	return TRACKER_ERROR_NONE;
+}
+
+API int tracker_start_services_internal(int services, int types)
+{
+	if (services < 0)
+		return TRACKER_ERROR_INVALID_PARAMETER;
+
+	if (services & TRACKER_SERVICE_DOWNLOAD)
+		start_service_download(types);
+	if (services & TRACKER_SERVICE_MEDIA)
+		start_service_media(types);
+	if (services & TRACKER_SERVICE_NETWORK)
+		start_service_network(types);
+	if (services & TRACKER_SERVICE_LOCATION)
+		start_service_location(types);
+	if (services & TRACKER_SERVICE_SENSOR)
+		start_service_sensor(types);
+	if (services & TRACKER_SERVICE_IOT)
+		start_service_iot(types);
+
+	return TRACKER_ERROR_NONE;
+}
+
+API int tracker_stop_services_internal(int services, int types)
+{
+	if (services < 0)
+		return TRACKER_ERROR_INVALID_PARAMETER;
+
+	if (services & TRACKER_SERVICE_DOWNLOAD)
+		stop_service_download(types);
+	if (services & TRACKER_SERVICE_MEDIA)
+		stop_service_media(types);
+	if (services & TRACKER_SERVICE_NETWORK)
+		stop_service_network(types);
+	if (services & TRACKER_SERVICE_LOCATION)
+		stop_service_location(types);
+	if (services & TRACKER_SERVICE_SENSOR)
+		stop_service_sensor(types);
+	if (services & TRACKER_SERVICE_IOT)
+		stop_service_iot(types);
+
 	return TRACKER_ERROR_NONE;
 }

@@ -18,6 +18,8 @@ SET(PKG_MODULES
 
 SET(SRCS
 	src/tracker.c
+	src/services.c
+	src/power_lock.c
 )
 
 SET(HEADERS
