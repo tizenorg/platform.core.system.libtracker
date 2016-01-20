@@ -43,6 +43,15 @@ typedef enum {
 	TRACKER_ERROR_NOT_SUPPORTED     = TIZEN_ERROR_NOT_SUPPORTED,     /**< The api is not supported */
 } tracker_error_e;
 
+typedef enum {
+	TRACKER_SERVICE_DOWNLOAD = 1 << 0, /**< download services */
+	TRACKER_SERVICE_MEDIA    = 1 << 1, /**< media operations */
+	TRACKER_SERVICE_NETWORK  = 1 << 2, /**< network services */
+	TRACKER_SERVICE_LOCATION = 1 << 3, /**< location services */
+	TRACKER_SERVICE_SENSOR   = 1 << 4, /**< sensor information */
+	TRACKER_SERVICE_IOT      = 1 << 5, /**< IoT services */
+} tracker_service_e;
+
 /**
  * @brief   Gets the reference count of the Power Lock operation
  * @since_tizen 3.0
@@ -54,6 +63,32 @@ typedef enum {
  * @retval  #TRACKER_ERROR_PERMISSION_DENIED No permission to use the API
  */
 int tracker_get_power_lock_ref(int *count);
+
+/**
+ * @brief   Start tracking for information of services
+ * @details The api should be used only in the framework, not in applications
+ * @since_tizen 3.0
+ * @param[in] services The services to use internally
+ * @return  @c 0 on success,
+ *          otherwise a negative error value
+ * @retval  #TRACKER_ERROR_NONE Successful
+ * @retval  #TRACKER_ERROR_INVALID_PARAMETER The input parameter is invalid
+ * @retval  #TRACKER_ERROR_PERMISSION_DENIED No permission to use the API
+ */
+int tracker_start_services_internal(int services);
+
+/**
+ * @brief   Stop tracking for information of services
+ * @details The api should be used only in the framework, not in applications
+ * @since_tizen 3.0
+ * @param[in] services The services not to use internally
+ * @return  @c 0 on success,
+ *          otherwise a negative error value
+ * @retval  #TRACKER_ERROR_NONE Successful
+ * @retval  #TRACKER_ERROR_INVALID_PARAMETER The input parameter is invalid
+ * @retval  #TRACKER_ERROR_PERMISSION_DENIED No permission to use the API
+ */
+int tracker_stop_services_internal(int services);
 
 /**
  * @}
