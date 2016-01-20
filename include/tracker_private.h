@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <dlog.h>
 
+#include "tracker.h"
+
 #ifndef API
 #define API __attribute__ ((visibility("default")))
 #endif
@@ -42,5 +44,30 @@
 #define _SI(fmt, arg...) SECURE_LOGI(fmt, ##arg)
 
 #define ARRAY_SIZE(name) (sizeof(name)/sizeof(name[0]))
+
+int get_power_lock_ref(void);
+void power_lock_ref(tracker_service_e service);
+void power_lock_unref(tracker_service_e service);
+
+char *service_name_str(tracker_service_e svc, char *buf, size_t len);
+
+void start_service_download(void);
+void stop_service_download(void);
+
+void start_service_media(void);
+void stop_service_media(void);
+
+void start_service_network(void);
+void stop_service_network(void);
+
+void start_service_location(void);
+void stop_service_location(void);
+
+void start_service_sensor(void);
+void stop_service_sensor(void);
+
+void start_service_iot(void);
+void stop_service_iot(void);
+
 
 #endif /* __LIBTRACKER_TRACKER_PRIVATE_H__ */
