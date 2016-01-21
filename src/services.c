@@ -53,62 +53,62 @@ char *service_name_str(tracker_service_e svc, char *buf, size_t len)
 	return str;
 }
 
-void power_lock_ref_download(void)
+void start_service_download(void)
 {
 	power_lock_ref(TRACKER_SERVICE_DOWNLOAD);
 }
 
-void power_lock_unref_download(void)
+void stop_service_download(void)
 {
 	power_lock_unref(TRACKER_SERVICE_DOWNLOAD);
 }
 
-void power_lock_ref_media(void)
+void start_service_media(void)
 {
 	power_lock_ref(TRACKER_SERVICE_MEDIA);
 }
 
-void power_lock_unref_media(void)
+void stop_service_media(void)
 {
 	power_lock_unref(TRACKER_SERVICE_MEDIA);
 }
 
-void power_lock_ref_network(void)
+void start_service_network(void)
 {
 	power_lock_ref(TRACKER_SERVICE_NETWORK);
 }
 
-void power_lock_unref_network(void)
+void stop_service_network(void)
 {
 	power_lock_unref(TRACKER_SERVICE_NETWORK);
 }
 
-void power_lock_ref_location(void)
+void start_service_location(void)
 {
 	power_lock_ref(TRACKER_SERVICE_LOCATION);
 }
 
-void power_lock_unref_location(void)
+void stop_service_location(void)
 {
 	power_lock_unref(TRACKER_SERVICE_LOCATION);
 }
 
-void power_lock_ref_sensor(void)
+void start_service_sensor(void)
 {
 	power_lock_ref(TRACKER_SERVICE_SENSOR);
 }
 
-void power_lock_unref_sensor(void)
+void stop_service_sensor(void)
 {
 	power_lock_unref(TRACKER_SERVICE_SENSOR);
 }
 
-void power_lock_ref_iot(void)
+void start_service_iot(void)
 {
 	power_lock_ref(TRACKER_SERVICE_IOT);
 }
 
-void power_lock_unref_iot(void)
+void stop_service_iot(void)
 {
 	power_lock_unref(TRACKER_SERVICE_IOT);
 }
