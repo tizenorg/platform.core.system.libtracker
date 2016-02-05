@@ -15,22 +15,27 @@
  * limitations under the License.
 */
 
+#include <limits.h>
 #include "tracker.h"
 #include "tracker_private.h"
 
-#define POWERLOCK_DEFAULT_REF 0
+#define POWERLOCK_DEFAULT_REF   0
+#define POWERLOCK_DEFAULT_COUNT 0
 
 struct powerlock_ref {
 	tracker_service_e service;
 	unsigned int ref;
+	int total;
 } lock_refs[] = {
-	{ TRACKER_SERVICE_DOWNLOAD, POWERLOCK_DEFAULT_REF },
-	{ TRACKER_SERVICE_MEDIA,    POWERLOCK_DEFAULT_REF },
-	{ TRACKER_SERVICE_NETWORK,  POWERLOCK_DEFAULT_REF },
-	{ TRACKER_SERVICE_LOCATION, POWERLOCK_DEFAULT_REF },
-	{ TRACKER_SERVICE_SENSOR,   POWERLOCK_DEFAULT_REF },
-	{ TRACKER_SERVICE_IOT,      POWERLOCK_DEFAULT_REF },
+	{ TRACKER_SERVICE_DOWNLOAD, POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
+	{ TRACKER_SERVICE_MEDIA,    POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
+	{ TRACKER_SERVICE_NETWORK,  POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
+	{ TRACKER_SERVICE_LOCATION, POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
+	{ TRACKER_SERVICE_SENSOR,   POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
+	{ TRACKER_SERVICE_IOT,      POWERLOCK_DEFAULT_REF , POWERLOCK_DEFAULT_COUNT },
 };
+
+#define COUNT_MAX (INT_MAX/ARRAY_SIZE(lock_refs))
 
 int get_power_lock_ref(void)
 {
@@ -45,6 +50,19 @@ int get_power_lock_ref(void)
 	return sum;
 }
 
+int get_power_lock_total(void)
+{
+	int sum = 0, i;
+
+	for (i = 0 ; i < ARRAY_SIZE(lock_refs) ; i++)
+		sum += lock_refs[i].total;
+
+	_I("Total lock count of pid(%d) is (%d)",
+				getpid(), sum);
+
+	return sum;
+}
+
 void power_lock_ref(tracker_service_e service)
 {
 	int i;
@@ -54,9 +72,15 @@ void power_lock_ref(tracker_service_e service)
 		if (lock_refs[i].service != service)
 			continue;
 		lock_refs[i].ref++;
-		_I("[%s] pid(%d) increases power lock ref count to (%d)",
+
+		if (lock_refs[i].total == COUNT_MAX)
+			lock_refs[i].total = POWERLOCK_DEFAULT_COUNT;
+		else
+			lock_refs[i].total++;
+
+		_I("[%s] pid(%d) increases power lock ref count to (%d, %d)",
 				service_name_str(service, buf, sizeof(buf)),
-				getpid(), lock_refs[i].ref);
+				getpid(), lock_refs[i].ref, lock_refs[i].total);
 		break;
 	}
 }

@@ -32,6 +32,20 @@ API int tracker_get_power_lock_ref(int *cnt)
 	return TRACKER_ERROR_NONE;
 }
 
+API int tracker_get_power_lock_total(int *cnt)
+{
+	int count;
+
+	count = get_power_lock_total();
+	if (count < 0) {
+		_E("Failed to get power lock total count(%d)", count);
+		return count;
+	}
+
+	*cnt = count;
+	return TRACKER_ERROR_NONE;
+}
+
 API int tracker_start_services(int services)
 {
 	if (services < 0)
