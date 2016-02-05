@@ -46,6 +46,7 @@
 #define ARRAY_SIZE(name) (sizeof(name)/sizeof(name[0]))
 
 int get_power_lock_ref(void);
+int get_power_lock_total(void);
 void power_lock_ref(tracker_service_e service);
 void power_lock_unref(tracker_service_e service);
 

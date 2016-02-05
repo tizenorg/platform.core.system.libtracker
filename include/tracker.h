@@ -65,6 +65,18 @@ typedef enum {
 int tracker_get_power_lock_ref(int *count);
 
 /**
+ * @brief   Gets the total count of the Power Lock operation
+ * @since_tizen 3.0
+ * @param[out] count The total count of the Power Lock operation
+ * @return  @c 0 on success,
+ *          otherwise a negative error value
+ * @retval  #TRACKER_ERROR_NONE Successful
+ * @retval  #TRACKER_ERROR_INVALID_PARAMETER The input parameter is invalid
+ * @retval  #TRACKER_ERROR_PERMISSION_DENIED No permission to use the API
+ */
+int tracker_get_power_lock_total(int *count);
+
+/**
  * @brief   Start tracking for information of services
  * @details The api should be used only in the framework, not in applications
  * @since_tizen 3.0
